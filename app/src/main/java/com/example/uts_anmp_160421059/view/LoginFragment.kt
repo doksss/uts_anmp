@@ -1,16 +1,24 @@
 package com.example.uts_anmp_160421059.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.uts_anmp_160421059.R
 import com.example.uts_anmp_160421059.databinding.FragmentLoginBinding
+import com.example.uts_anmp_160421059.model.User
+import com.example.uts_anmp_160421059.viewmodel.UserViewModel
 
 class LoginFragment : Fragment() {
     private lateinit var binding:FragmentLoginBinding
+    private lateinit var viewModel: UserViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -23,13 +31,40 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnSignin.setOnClickListener{
 
-        }
         binding.btnCreateAccount.setOnClickListener{
             val action = LoginFragmentDirections.actionRegistrasiFragment()
             Navigation.findNavController(it).navigate(action)
         }
+
+        binding.btnSignin.setOnClickListener{
+            var username = binding.txtUsername.text
+            var password = binding.txtPassword.text
+            if(username.isEmpty() || password.isEmpty()){
+                Toast.makeText(activity, "Username atau password harus diisi!", Toast.LENGTH_SHORT).show()
+            }else{
+                viewModel =ViewModelProvider(this).get(UserViewModel::class.java)
+                viewModel.login(username.toString(),password.toString())
+                viewModel.userLD.observe(viewLifecycleOwner, Observer {
+                    var user = it
+                    if(user==null){
+                        Toast.makeText(activity, "Username atau password salah", Toast.LENGTH_SHORT).show()
+                    }else{
+                        val action = LoginFragmentDirections.actionRegistrasiFragment()
+                        Navigation.findNavController(requireView()).navigate(action)
+                    }
+                })
+
+
+            }
+        }
+
+
     }
+//    fun observeViewModel():Boolean{
+//        var checkUser = false
+//
+//        return checkUser
+//    }
 
 }
