@@ -5,5 +5,5 @@ data class Game (
     var judul:String?,
     var deskripsi:String?,
     var url:String?,
-    var author:String?,
+    var authors:String?,
 )

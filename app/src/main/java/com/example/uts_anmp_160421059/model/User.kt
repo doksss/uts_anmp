@@ -1,7 +1,7 @@
 package com.example.uts_anmp_160421059.model
 
 data class User (
-    var id:Number?,
+    var id:Int?,
     var username:String?,
     var first_name:String?,
     var last_name:String?,

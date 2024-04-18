@@ -18,7 +18,7 @@ class ListGameViewModel(application: Application):AndroidViewModel(application) 
     private var queue: RequestQueue?=null //object volley
     fun refresh(){
         queue = Volley.newRequestQueue(getApplication())//requestQueue butuh context, karena viewmodel gada context maka parent class diganti AndroidViewModel
-        val url = "http://172.20.10.2/anmp/games.json"
+        val url = "http://172.20.10.2/anmp/listgame.php"
 
         val stringRequest = StringRequest(
             Request.Method.GET,

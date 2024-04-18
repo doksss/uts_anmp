@@ -1,5 +1,7 @@
 package com.example.uts_anmp_160421059.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -50,7 +52,33 @@ class LoginFragment : Fragment() {
                     if(user==null){
                         Toast.makeText(activity, "Username atau password salah", Toast.LENGTH_SHORT).show()
                     }else{
-                        val action = LoginFragmentDirections.actionRegistrasiFragment()
+                        //menampilkan navbar
+                        (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
+                        //SharedPrefences
+                        val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
+                        val sharedValue =shared.edit()
+                        if (user.id != null) {
+                            sharedValue.putInt("id",id)
+                        }
+                        if (user.username != null) {
+                            sharedValue.putString("username",user.username)
+                        }
+                        if (user.first_name != null) {
+                            sharedValue.putString("first_name",user.first_name)
+                        }
+                        if (user.last_name != null) {
+                            sharedValue.putString("last_name",user.last_name)
+                        }
+                        if (user.url != null) {
+                            sharedValue.putString("url_profile",user.url)
+                        }
+                        if(user.password!=null){
+                            sharedValue.putString("password",user.password)
+                        }
+                        sharedValue.apply()
+
+
+                        val action = LoginFragmentDirections.actionGameListFragment()
                         Navigation.findNavController(requireView()).navigate(action)
                     }
                 })

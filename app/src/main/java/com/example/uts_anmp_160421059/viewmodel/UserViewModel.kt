@@ -69,4 +69,7 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
         stringRequest.tag = TAG
         queue?.add(stringRequest)
     }
+    fun changeProfileUser(id:Int,first_name:String,last_name:String,password: String){
+
+    }
 }
