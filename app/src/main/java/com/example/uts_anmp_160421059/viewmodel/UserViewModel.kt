@@ -10,21 +10,30 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.uts_anmp_160421059.model.User
 import com.google.gson.Gson
+import org.json.JSONObject
 
 class UserViewModel(application:Application) :AndroidViewModel(application){
-    val userLD =MutableLiveData<User>()
+    val userLD =MutableLiveData<User?>()
     val userRegisterLD = MutableLiveData<Boolean>()
     val userUpdateLD = MutableLiveData<Boolean>()
+    val userSuccessLoginLD = MutableLiveData<Boolean>()
     fun login(username:String,password:String){
         val TAG ="volleytag"
         var queue: RequestQueue?=null
         queue = Volley.newRequestQueue(getApplication())
         var url = "http://172.20.10.2/anmp/login.php"
         val stringRequest = object: StringRequest(Request.Method.POST,url,
-            {
-                Log.d("show_volley_login",it)
-                val user1 =Gson().fromJson(it,User::class.java)
-                userLD.value =user1?:null
+            {response->
+                val res = JSONObject(response)
+                if(res.getString("Result")=="Success"){
+                    userLD.value =Gson().fromJson(res.getString("Data"),User::class.java)
+                    userSuccessLoginLD.value = true
+                    Log.d("show_volley_login",res.getString("Message"))
+                }else{
+                    userLD.value = null
+                    userSuccessLoginLD.value = false
+                }
+
             },{
                 Log.e("show_volley",it.toString())
             }

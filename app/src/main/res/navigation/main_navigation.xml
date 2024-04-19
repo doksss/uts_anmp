@@ -14,10 +14,8 @@
             android:id="@+id/action_registrasiFragment"
             app:destination="@id/registrasiFragment" />
         <action
-            android:id="@+id/action_gameListFragment"
-            app:destination="@id/gameListFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
+            android:id="@+id/action_loginFragment_to_gameListFragment"
+            app:destination="@id/gameListFragment" />
     </fragment>
     <fragment
         android:id="@+id/registrasiFragment"

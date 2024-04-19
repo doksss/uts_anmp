@@ -37,7 +37,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val userlogin = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
-        var id = userlogin.getInt("id",0)
+        var id = userlogin.getString("id","")
         var username = userlogin.getString("username", "")
         var firstname = userlogin.getString("first_name", "")
         var lastname= userlogin.getString("last_name", "")
@@ -73,7 +73,9 @@ class ProfileFragment : Fragment() {
             if(first_name.isEmpty()||last_name.isEmpty()||password_user.isEmpty()){
                 Toast.makeText(activity, "Harap semua textbox diisi", Toast.LENGTH_SHORT).show()
             }else{
-                viewModel.changeProfileUser(id,first_name.toString(),last_name.toString(), password_user.toString())
+                if (id != null) {
+                    viewModel.changeProfileUser(id.toInt(),first_name.toString(),last_name.toString(), password_user.toString())
+                }
                 viewModel.userUpdateLD.observe(viewLifecycleOwner, Observer {
                     if(it==true){
                         val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
