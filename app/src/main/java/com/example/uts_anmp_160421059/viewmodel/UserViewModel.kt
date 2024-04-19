@@ -14,6 +14,7 @@ import com.google.gson.Gson
 class UserViewModel(application:Application) :AndroidViewModel(application){
     val userLD =MutableLiveData<User>()
     val userRegisterLD = MutableLiveData<Boolean>()
+    val userUpdateLD = MutableLiveData<Boolean>()
     fun login(username:String,password:String){
         val TAG ="volleytag"
         var queue: RequestQueue?=null
@@ -69,7 +70,31 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
         stringRequest.tag = TAG
         queue?.add(stringRequest)
     }
-    fun changeProfileUser(id:Int,first_name:String,last_name:String,password: String){
-
+    fun changeProfileUser(id:Int,first_name:String,last_name:String,password_user: String){
+        val TAG ="volleytag"
+        var queue: RequestQueue?=null
+        queue = Volley.newRequestQueue(getApplication())
+        var url = "http://172.20.10.2/anmp/update_user.php"
+        val stringRequest = object: StringRequest(Request.Method.POST,url,
+            {
+                userUpdateLD.value =true
+                Log.d("show_volley_register",it)
+            },{
+                userUpdateLD.value = false
+                Log.e("show_volley",it.toString())
+            }
+        )
+        {
+            override fun getParams(): MutableMap<String,String>{
+                val params = HashMap<String,String>()
+                params["id"] =id.toString()
+                params["first_name"] = first_name
+                params["last_name"] = last_name
+                params["password"] = password_user
+                return params
+            }
+        }
+        stringRequest.tag = TAG
+        queue?.add(stringRequest)
     }
 }

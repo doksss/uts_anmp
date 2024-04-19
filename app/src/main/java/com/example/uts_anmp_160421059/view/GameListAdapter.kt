@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.uts_anmp_160421059.databinding.GameListItemBinding
 import com.example.uts_anmp_160421059.model.Game
@@ -21,7 +22,8 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         holder.binding.txtJudulGame.text =gameList[position].judul
-        holder.binding.txtKreator.text = gameList[position].authors
+        holder.binding.txtKreator.text = "@"+ gameList[position].authors
+//        + gameList[position].paragraphs?.get(0)?.title
         holder.binding.txtDescription.text = gameList[position].deskripsi
         val picasso = Picasso.Builder(holder.itemView.context)
         picasso.listener { picasso, uri, exception ->
@@ -38,6 +40,10 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
                 }
 
             })
+        holder.binding.btnRead.setOnClickListener{
+            val action = GameListFragmentDirections.actionDetailFragment(gameList[position].id.toString())
+            Navigation.findNavController(it).navigate(action)
+        }
 
 
     }

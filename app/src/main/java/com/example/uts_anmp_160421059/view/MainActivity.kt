@@ -21,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         navController = (supportFragmentManager.findFragmentById(R.id.hostFragment) as
                 NavHostFragment).navController
+        NavigationUI.setupActionBarWithNavController(this,navController,binding.drawerLayout)
+        NavigationUI.setupWithNavController(binding.navView,navController)
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.visibility = View.GONE
 //        //android back button
@@ -29,7 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 //    //android back button
-//    override fun onSupportNavigateUp(): Boolean {
-//        return navController.navigateUp()
-//    }
+        override fun onSupportNavigateUp(): Boolean {
+        //artinysa bisa memunculkan drawer atau memunculkan backbutton di kiri atas
+//        return NavigationUI.navigateUp(navController,binding.drawerLayout) || super.onSupportNavigateUp()
+        return NavigationUI.navigateUp(navController,binding.drawerLayout) || super.onSupportNavigateUp()
+}
 }

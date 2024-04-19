@@ -43,7 +43,6 @@ class RegistrasiFragment : Fragment() {
                 Toast.makeText(activity, "Harap semua textbox diisi", Toast.LENGTH_SHORT).show()
             }else{
                 if(password.toString() == confirm_pass.toString()){
-                    Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
                     viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
                     viewModel.register(username.toString(),first_name.toString(),lastname.toString(),
                         email.toString(),confirm_pass.toString(),url.toString())
