@@ -34,7 +34,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var successLogin = false
+//        var successLogin = false
         binding.btnCreateAccount.setOnClickListener{
             val action = LoginFragmentDirections.actionRegistrasiFragment()
             Navigation.findNavController(it).navigate(action)
@@ -79,8 +79,6 @@ class LoginFragment : Fragment() {
                             }
                             sharedValue.apply()
                         })
-                    }else{
-                        Toast.makeText(activity, "Username atau password salah", Toast.LENGTH_SHORT).show()
                     }
                 })
             }

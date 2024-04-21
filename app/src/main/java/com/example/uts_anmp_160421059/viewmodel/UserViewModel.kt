@@ -3,6 +3,7 @@ package com.example.uts_anmp_160421059.viewmodel
 import android.app.Application
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.Navigation
@@ -17,7 +18,7 @@ import org.json.JSONObject
 
 class UserViewModel(application:Application) :AndroidViewModel(application){
     val userLD =MutableLiveData<User?>()
-    val userRegisterLD = MutableLiveData<Boolean>()
+//    val userRegisterLD = MutableLiveData<Boolean>()
     val userUpdateLD = MutableLiveData<Boolean>()
     val userSuccessLoginLD = MutableLiveData<Boolean>()
     fun login(username:String,password:String,view:View){
@@ -33,9 +34,11 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
                     userSuccessLoginLD.value = true
                     val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
                     Navigation.findNavController(view).navigate(action)
+                    Toast.makeText(getApplication(), "Success!", Toast.LENGTH_SHORT).show()
                     Log.d("show_volley_login",res.getString("Data"))
                 }else{
                     userSuccessLoginLD.value = false
+                    Toast.makeText(getApplication(), "Username atau password salah", Toast.LENGTH_SHORT).show()
                 }
 
             },{
@@ -61,11 +64,12 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
         var url = "http://172.20.10.2/anmp/register.php"
         val stringRequest = object: StringRequest(Request.Method.POST,url,
             {
-                userRegisterLD.value =true
+//                userRegisterLD.value =true
+                Toast.makeText(getApplication(), "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
                 Log.d("show_volley_register",it)
 //
             },{
-                userRegisterLD.value = false
+//                userRegisterLD.value = false
                 Log.e("show_volley",it.toString())
             }
         )
