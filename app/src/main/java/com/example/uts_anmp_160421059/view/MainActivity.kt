@@ -3,6 +3,7 @@ package com.example.uts_anmp_160421059.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.navView,navController)
         binding.bottomNav.setupWithNavController(navController)
         binding.bottomNav.visibility = View.GONE
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 //        //android back button
 //        navController = (supportFragmentManager.findFragmentById(R.id.hostFragment)as NavHostFragment).navController
 //        NavigationUI.setupActionBarWithNavController(this,navController)

@@ -1,5 +1,6 @@
 package com.example.uts_anmp_160421059.view
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.uts_anmp_160421059.R
 import com.example.uts_anmp_160421059.databinding.FragmentGameListBinding
@@ -29,6 +31,12 @@ class GameListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val userlogin = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
+        var id = userlogin.getString("id","")
+        if(id.equals("")){
+            val action = GameListFragmentDirections.actionBacktoLoginFragment()
+            Navigation.findNavController(requireView()).navigate(action)
+        }
         viewModel =ViewModelProvider(this).get(ListGameViewModel::class.java)
         viewModel.refresh()
 

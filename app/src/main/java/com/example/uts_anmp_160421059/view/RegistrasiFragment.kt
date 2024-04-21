@@ -46,12 +46,13 @@ class RegistrasiFragment : Fragment() {
                     viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
                     viewModel.register(username.toString(),first_name.toString(),lastname.toString(),
                         email.toString(),confirm_pass.toString(),url.toString())
+                    Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
 
-                    viewModel.userRegisterLD.observe(viewLifecycleOwner, Observer {
-                        if(it==true){
-                            Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
-                        }
-                    })
+//                    viewModel.userRegisterLD.observe(viewLifecycleOwner, Observer {
+//                        if(it==true){
+//                            Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
+//                        }
+//                    })
                     val action = RegistrasiFragmentDirections.actionLoginFragment()
                     Navigation.findNavController(it).navigate(action)
                 }else{

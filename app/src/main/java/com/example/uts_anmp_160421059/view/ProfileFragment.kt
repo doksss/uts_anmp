@@ -43,11 +43,18 @@ class ProfileFragment : Fragment() {
         var lastname= userlogin.getString("last_name", "")
         var urlprofil = userlogin.getString("url_profile", "")
         var password = userlogin.getString("password","")
+        if(id.equals("")){
+            val action = ProfileFragmentDirections.actionProfileFragmentLoginFragment()
+            Navigation.findNavController(requireView()).navigate(action)
+        }
         binding.txtNamaDepan.setText(firstname)
         binding.txtLastNameProfile.setText(lastname)
         binding.txtUsernameProfile.setText(username)
         binding.txtOldPass.setText(password)
-        Picasso.get().load(urlprofil).into(binding.imgProfile)
+        if(urlprofil!=""){
+            Picasso.get().load(urlprofil).into(binding.imgProfile)
+        }
+
 
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 

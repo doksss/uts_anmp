@@ -44,34 +44,43 @@ class LoginFragment : Fragment() {
         binding.btnSignin.setOnClickListener{
             var username = binding.txtUsername.text
             var password = binding.txtPassword.text
-            viewModel.login(username.toString(),password.toString())
+
             if(username.isEmpty() || password.isEmpty()){
                 Toast.makeText(activity, "Username atau password harus diisi!", Toast.LENGTH_SHORT).show()
             }else{
-                viewModel.userLD.observe(viewLifecycleOwner, Observer {
-                    val user = it
-                    if(user!=null){
-                        viewModel.userSuccessLoginLD.value = true
-                        if(viewModel.userSuccessLoginLD.value==true){
-                            successLogin=true
-                            val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
-                            Navigation.findNavController(requireView()).navigate(action)
-                        }
-                        //menampilkan navbar
-                        (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
-                        //SharedPrefences
-                        val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
-                        val sharedValue =shared.edit()
-                        sharedValue.putString("id", user.id)
-                        sharedValue.putString("username",user.username)
-                        sharedValue.putString("first_name",user.first_name)
-                        sharedValue.putString("last_name",user.last_name)
-                        sharedValue.putString("url_profile",user.url)
-                        sharedValue.putString("password",user.password)
-                        sharedValue.apply()
+                viewModel.login(username.toString(),password.toString(),view)
+                viewModel.userSuccessLoginLD.observe(viewLifecycleOwner, Observer { checkSuccess ->
+                    val userLogin = checkSuccess
+                    if(userLogin==true){
+                        viewModel.userLD.observe(viewLifecycleOwner, Observer { user ->
+                            val users = user
+                            //menampilkan navbar
+                            (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
+                            //SharedPrefences
+                            val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
+                            val sharedValue =shared.edit()
+                            if (users != null) {
+                                sharedValue.putString("id", users.id)
+                            }
+                            if (users != null) {
+                                sharedValue.putString("username",users.username)
+                            }
+                            if (users != null) {
+                                sharedValue.putString("first_name",users.first_name)
+                            }
+                            if (users != null) {
+                                sharedValue.putString("last_name",users.last_name)
+                            }
+                            if (users != null) {
+                                sharedValue.putString("url_profile",users.url)
+                            }
+                            if (users != null) {
+                                sharedValue.putString("password",users.password)
+                            }
+                            sharedValue.apply()
+                        })
                     }else{
                         Toast.makeText(activity, "Username atau password salah", Toast.LENGTH_SHORT).show()
-                        viewModel.userSuccessLoginLD.value = false
                     }
                 })
             }

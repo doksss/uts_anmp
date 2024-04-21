@@ -2,13 +2,16 @@ package com.example.uts_anmp_160421059.viewmodel
 
 import android.app.Application
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.Navigation
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.uts_anmp_160421059.model.User
+import com.example.uts_anmp_160421059.view.LoginFragmentDirections
 import com.google.gson.Gson
 import org.json.JSONObject
 
@@ -17,7 +20,7 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
     val userRegisterLD = MutableLiveData<Boolean>()
     val userUpdateLD = MutableLiveData<Boolean>()
     val userSuccessLoginLD = MutableLiveData<Boolean>()
-    fun login(username:String,password:String){
+    fun login(username:String,password:String,view:View){
         val TAG ="volleytag"
         var queue: RequestQueue?=null
         queue = Volley.newRequestQueue(getApplication())
@@ -28,9 +31,10 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
                 if(res.getString("Result")=="Success"){
                     userLD.value =Gson().fromJson(res.getString("Data"),User::class.java)
                     userSuccessLoginLD.value = true
-                    Log.d("show_volley_login",res.getString("Message"))
+                    val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
+                    Navigation.findNavController(view).navigate(action)
+                    Log.d("show_volley_login",res.getString("Data"))
                 }else{
-                    userLD.value = null
                     userSuccessLoginLD.value = false
                 }
 
@@ -57,8 +61,9 @@ class UserViewModel(application:Application) :AndroidViewModel(application){
         var url = "http://172.20.10.2/anmp/register.php"
         val stringRequest = object: StringRequest(Request.Method.POST,url,
             {
-                Log.d("show_volley_register",it)
                 userRegisterLD.value =true
+                Log.d("show_volley_register",it)
+//
             },{
                 userRegisterLD.value = false
                 Log.e("show_volley",it.toString())
