@@ -49,11 +49,8 @@ class GameDetailFragment : Fragment() {
             viewModel.gamesLD.observe(viewLifecycleOwner, Observer {
 //                val gameList:ArrayList<Game>
                 gameList = it
-                size = gameList[0].paragraphs?.size!!
                 binding.txtJudulGames.setText(gameList[0].judul)
                 binding.txtAuthorGames.setText("@" + gameList[0].pengarang)
-                binding.txtTitleParagraf.setText(gameList[0].paragraphs?.get(index)?.judul_paragraf)
-                binding.txtContentParagraf.setText(gameList[0].paragraphs?.get(index)?.isi_paragraf)
 
                 Picasso.get().load(gameList[0].url).into(binding.imgGames)
                 //kalau paragraf cuma ada 1 maka btn next di disabled
@@ -72,8 +69,6 @@ class GameDetailFragment : Fragment() {
                     }else{
                         binding.btnPrev.isEnabled = true
                     }
-                    binding.txtTitleParagraf.setText(gameList[0].paragraphs?.get(index)?.judul_paragraf)
-                    binding.txtContentParagraf.setText(gameList[0].paragraphs?.get(index)?.isi_paragraf)
                 }
                 binding.btnPrev.setOnClickListener {
                     index--
@@ -87,10 +82,31 @@ class GameDetailFragment : Fragment() {
                     }else{
                         binding.btnNext.isEnabled = true
                     }
-                    binding.txtTitleParagraf.setText(gameList[0].paragraphs?.get(index)?.judul_paragraf)
-                    binding.txtContentParagraf.setText(gameList[0].paragraphs?.get(index)?.isi_paragraf)
+                    binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
                 }
             })
+            viewModel.paragraphsLD.observe(viewLifecycleOwner, Observer {
+                prgfList = it
+                size = it.size
+                if (it.isNotEmpty()) {
+                    binding.txtTitleParagraf.setText(it[index].judul_paragraf)
+                    binding.txtContentParagraf.setText(it[index].isi_paragraf)
+                }
+            })
+            binding.btnPrev.setOnClickListener {
+                index--
+                if(index==0){
+                    binding.btnPrev.isEnabled = false
+                }else{
+                    binding.btnPrev.isEnabled = true
+                }
+                if(index==(size-1)){
+                    binding.btnNext.isEnabled = false
+                }else{
+                    binding.btnNext.isEnabled = true
+                }
+                binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
+            }
         }
 
 

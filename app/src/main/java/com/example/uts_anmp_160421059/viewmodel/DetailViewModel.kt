@@ -9,11 +9,13 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.uts_anmp_160421059.model.Game
+import com.example.uts_anmp_160421059.model.Paragraph
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class DetailViewModel(application: Application):AndroidViewModel(application) {
     val gamesLD =MutableLiveData<ArrayList<Game>>()
+    val paragraphsLD=MutableLiveData<ArrayList<Paragraph>>()
     val TAG = "volleyTag" //ini bebas mau dikasi nama apa variablenya
     private var queue: RequestQueue?=null //object volley
     fun detailRefresh(id:String){
