@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.uts_anmp_160421059.R
 import com.example.uts_anmp_160421059.databinding.FragmentGameDetailBinding
 import com.example.uts_anmp_160421059.model.Game
+import com.example.uts_anmp_160421059.model.Paragraph
 import com.example.uts_anmp_160421059.viewmodel.DetailViewModel
 import com.example.uts_anmp_160421059.viewmodel.ListGameViewModel
 import com.squareup.picasso.Picasso
@@ -37,6 +38,7 @@ class GameDetailFragment : Fragment() {
             binding.btnPrev.isEnabled = false
         }
         var gameList:ArrayList<Game>
+        var prgfList:ArrayList<Paragraph>
         super.onViewCreated(view, savedInstanceState)
 
         if(arguments!=null){
@@ -49,7 +51,7 @@ class GameDetailFragment : Fragment() {
                 gameList = it
                 size = gameList[0].paragraphs?.size!!
                 binding.txtJudulGames.setText(gameList[0].judul)
-                binding.txtAuthorGames.setText("@" + gameList[0].authors)
+                binding.txtAuthorGames.setText("@" + gameList[0].pengarang)
                 binding.txtTitleParagraf.setText(gameList[0].paragraphs?.get(index)?.judul_paragraf)
                 binding.txtContentParagraf.setText(gameList[0].paragraphs?.get(index)?.isi_paragraf)
 

@@ -22,7 +22,7 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         holder.binding.txtJudulGame.text =gameList[position].judul
-        holder.binding.txtKreator.text = "@"+ gameList[position].authors
+        holder.binding.txtKreator.text = "@"+ gameList[position].pengarang
 //        + gameList[position].paragraphs?.get(0)?.title
         holder.binding.txtDescription.text = gameList[position].deskripsi
         val picasso = Picasso.Builder(holder.itemView.context)

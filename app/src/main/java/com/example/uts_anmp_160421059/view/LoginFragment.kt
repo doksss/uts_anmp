@@ -60,7 +60,7 @@ class LoginFragment : Fragment() {
                             val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
                             val sharedValue =shared.edit()
                             if (users != null) {
-                                sharedValue.putString("id", users.id)
+                                sharedValue.putString("id", users.id.toString())
                             }
                             if (users != null) {
                                 sharedValue.putString("username",users.username)
