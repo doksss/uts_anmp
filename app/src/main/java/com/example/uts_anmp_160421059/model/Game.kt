@@ -11,8 +11,6 @@ data class Game (
     var judul:String,
     @ColumnInfo(name = "deskripsi")
     var deskripsi:String,
-    @ColumnInfo(name = "category")
-    var category:String,
     @ColumnInfo(name = "pengarang")
     var pengarang:String,
     @ColumnInfo(name = "url")
