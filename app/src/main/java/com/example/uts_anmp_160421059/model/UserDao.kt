@@ -14,7 +14,7 @@ interface UserDao {
     @Query("SELECT * FROM user")
     fun selectAll(): List<User>
 
-    @Query("SELECT * FROM user WHERE id= :id")
-    fun selectGame(id:Int): User
+    @Query("SELECT * FROM user where username= :username and password = :password")
+    fun login(username: String, password:String): User
 
 }

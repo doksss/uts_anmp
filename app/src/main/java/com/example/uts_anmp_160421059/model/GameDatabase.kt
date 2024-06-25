@@ -10,6 +10,7 @@ import com.example.uts_anmp_160421059.util.DB_NAME
 abstract class GameDatabase:RoomDatabase() {
     abstract fun gameDao():GameDao
     abstract fun userDao():UserDao
+    abstract fun paragraphDao():ParagraphDao
     companion object{
         @Volatile private var instance: GameDatabase ?= null
         private val LOCK = Any()
