@@ -38,7 +38,7 @@ class GameDetailFragment : Fragment() {
             binding.btnPrev.isEnabled = false
         }
         var gameList:ArrayList<Game>
-        var prgfList:ArrayList<Paragraph>
+        var prgfList:ArrayList<Paragraph>? = null
         super.onViewCreated(view, savedInstanceState)
 
         if(arguments!=null){
@@ -82,7 +82,6 @@ class GameDetailFragment : Fragment() {
                     }else{
                         binding.btnNext.isEnabled = true
                     }
-                    binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
                 }
             })
             viewModel.paragraphsLD.observe(viewLifecycleOwner, Observer {
