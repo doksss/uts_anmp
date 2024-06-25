@@ -11,4 +11,7 @@ data class Paragraph (
     var judul_paragraf: String,
     @ColumnInfo(name = "isi_paragraf")
     var isi_paragraf:String,
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var id:Int = 0
+}
