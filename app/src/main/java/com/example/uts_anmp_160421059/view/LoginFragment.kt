@@ -20,6 +20,7 @@ import com.example.uts_anmp_160421059.viewmodel.UserViewModel
 class LoginFragment : Fragment() {
     private lateinit var binding:FragmentLoginBinding
     private lateinit var viewModel: UserViewModel
+    private lateinit var users:User
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,12 +49,21 @@ class LoginFragment : Fragment() {
             if(username.isEmpty() || password.isEmpty()){
                 Toast.makeText(activity, "Username atau password harus diisi!", Toast.LENGTH_SHORT).show()
             }else{
+//                viewModel.login(username.toString(),password.toString(),view)
+//                viewModel.userLD.observe(viewLifecycleOwner, Observer {
+//                    if (it != null) {
+//                        user = it
+//                        Toast.makeText(context,"Berhasil",Toast.LENGTH_SHORT).show()
+//                    }
+//                })
                 viewModel.login(username.toString(),password.toString(),view)
                 viewModel.userSuccessLoginLD.observe(viewLifecycleOwner, Observer { checkSuccess ->
                     val userLogin = checkSuccess
                     if(userLogin==true){
                         viewModel.userLD.observe(viewLifecycleOwner, Observer { user ->
-                            val users = user
+                            if (user != null) {
+                                users = user
+                            }
                             //menampilkan navbar
                             (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
                             //SharedPrefences
@@ -62,22 +72,24 @@ class LoginFragment : Fragment() {
                             if (users != null) {
                                 sharedValue.putString("id", users.id.toString())
                             }
-                            if (users != null) {
-                                sharedValue.putString("username",users.username)
-                            }
-                            if (users != null) {
-                                sharedValue.putString("first_name",users.first_name)
-                            }
-                            if (users != null) {
-                                sharedValue.putString("last_name",users.last_name)
-                            }
-                            if (users != null) {
-                                sharedValue.putString("url_profile",users.url)
-                            }
-                            if (users != null) {
-                                sharedValue.putString("password",users.password)
-                            }
+//                            if (users != null) {
+//                                sharedValue.putString("username",users.username)
+//                            }
+//                            if (users != null) {
+//                                sharedValue.putString("first_name",users.first_name)
+//                            }
+//                            if (users != null) {
+//                                sharedValue.putString("last_name",users.last_name)
+//                            }
+//                            if (users != null) {
+//                                sharedValue.putString("url_profile",users.url)
+//                            }
+//                            if (users != null) {
+//                                sharedValue.putString("password",users.password)
+//                            }
                             sharedValue.apply()
+                            val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
+                            Navigation.findNavController(it).navigate(action)
                         })
                     }
                 })

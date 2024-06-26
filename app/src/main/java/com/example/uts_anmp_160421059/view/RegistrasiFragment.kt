@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.uts_anmp_160421059.R
 import com.example.uts_anmp_160421059.databinding.FragmentRegistrasiBinding
+import com.example.uts_anmp_160421059.model.User
 import com.example.uts_anmp_160421059.viewmodel.UserViewModel
 
 
@@ -44,8 +45,11 @@ class RegistrasiFragment : Fragment() {
             }else{
                 if(password.toString() == confirm_pass.toString()){
                     viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-                    viewModel.register(username.toString(),first_name.toString(),lastname.toString(),
+                    val user = User(username.toString(),first_name.toString(),lastname.toString(),
                         email.toString(),confirm_pass.toString(),url.toString())
+//                    viewModel.register(username.toString(),first_name.toString(),lastname.toString(),
+//                        email.toString(),confirm_pass.toString(),url.toString())
+                    viewModel.register(user)
 //                    Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
 
 //                    viewModel.userRegisterLD.observe(viewLifecycleOwner, Observer {
