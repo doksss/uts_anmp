@@ -9,3 +9,7 @@ interface UserEditClickListener{
 interface UserLogoutClickListener{
     fun onUserLogoutClick(v:View)
 }
+
+interface UserCreateClickListener{
+    fun onUserCreateClick(v: View)
+}

@@ -17,7 +17,7 @@ import com.example.uts_anmp_160421059.databinding.FragmentLoginBinding
 import com.example.uts_anmp_160421059.model.User
 import com.example.uts_anmp_160421059.viewmodel.UserViewModel
 
-class LoginFragment : Fragment() {
+class LoginFragment : Fragment(), UserCreateClickListener, UserEditClickListener {
     private lateinit var binding:FragmentLoginBinding
     private lateinit var viewModel: UserViewModel
     private lateinit var users:User
@@ -28,61 +28,92 @@ class LoginFragment : Fragment() {
     ): View? {
         binding = FragmentLoginBinding.inflate(inflater, container,false)
         return binding.root
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        var successLogin = false
-        binding.btnCreateAccount.setOnClickListener{
-            val action = LoginFragmentDirections.actionRegistrasiFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
-
+        binding.createlistener = this
+        binding.loginlistener = this
         viewModel =ViewModelProvider(this).get(UserViewModel::class.java)
-        binding.btnSignin.setOnClickListener{
-            var username = binding.txtUsername.text
-            var password = binding.txtPassword.text
 
-            if(username.isEmpty() || password.isEmpty()){
-                Toast.makeText(activity, "Username atau password harus diisi!", Toast.LENGTH_SHORT).show()
-            }else{
+        binding.user =User("","","","","","")
+
+
+//        binding.btnSignin.setOnClickListener{
+//            var username = binding.txtUsername.text
+//            var password = binding.txtPassword.text
+//
+//            if(username.isEmpty() || password.isEmpty()){
+//                Toast.makeText(activity, "Username atau password harus diisi!", Toast.LENGTH_SHORT).show()
+//            }else{
+////                viewModel.login(username.toString(),password.toString(),view)
+////                viewModel.userLD.observe(viewLifecycleOwner, Observer {
+////                    if (it != null) {
+////                        user = it
+////                        Toast.makeText(context,"Berhasil",Toast.LENGTH_SHORT).show()
+////                    }
+////                })
 //                viewModel.login(username.toString(),password.toString(),view)
-//                viewModel.userLD.observe(viewLifecycleOwner, Observer {
-//                    if (it != null) {
-//                        user = it
-//                        Toast.makeText(context,"Berhasil",Toast.LENGTH_SHORT).show()
+//                viewModel.userSuccessLoginLD.observe(viewLifecycleOwner, Observer { checkSuccess ->
+//                    val userLogin = checkSuccess
+//                    if(userLogin==true){
+//                        viewModel.userLD.observe(viewLifecycleOwner, Observer { user ->
+//                            if (user != null) {
+//                                users = user
+//                            }
+//                            //menampilkan navbar
+//                            (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
+//                            //SharedPrefences
+//                            val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
+//                            val sharedValue =shared.edit()
+//                            if (users != null) {
+//                                sharedValue.putString("id", users.id.toString())
+//                            }
+//
+//                            sharedValue.apply()
+//                            val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
+//                            Navigation.findNavController(it).navigate(action)
+//                        })
 //                    }
 //                })
-                viewModel.login(username.toString(),password.toString(),view)
-                viewModel.userSuccessLoginLD.observe(viewLifecycleOwner, Observer { checkSuccess ->
-                    val userLogin = checkSuccess
-                    if(userLogin==true){
-                        viewModel.userLD.observe(viewLifecycleOwner, Observer { user ->
-                            if (user != null) {
-                                users = user
-                            }
+//            }
+//
+//        }
+
+
+    }
+
+    override fun onUserCreateClick(v: View) {
+        val action = LoginFragmentDirections.actionRegistrasiFragment()
+        Navigation.findNavController(v).navigate(action)
+    }
+
+    override fun onUserEditClick(v: View) {
+        if(binding.user?.username == "" || binding.user?.password == ""){
+            Toast.makeText(context, "Username atau Password harus diisi!", Toast.LENGTH_SHORT).show()
+        }else{
+            viewModel.login(binding.user!!.username, binding.user!!.password)
+            viewModel.userSuccessLoginLD.observe(viewLifecycleOwner, Observer { checkSuccess ->
+                if(checkSuccess == true){
+                    viewModel.userLD.observe(viewLifecycleOwner, Observer { user ->
                             //menampilkan navbar
                             (activity as MainActivity).binding.bottomNav.visibility = View.VISIBLE
+
                             //SharedPrefences
                             val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
                             val sharedValue =shared.edit()
-                            if (users != null) {
-                                sharedValue.putString("id", users.id.toString())
-                            }
-
+                            sharedValue.putString("id", user!!.id.toString())
                             sharedValue.apply()
+
                             val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
-                            Navigation.findNavController(it).navigate(action)
+                            Navigation.findNavController(v).navigate(action)
                         })
-                    }
-                })
-            }
-
+                }else{
+                    Toast.makeText(context, "Username atau Password Salah!", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
-
 
     }
 
