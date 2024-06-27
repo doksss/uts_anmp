@@ -11,6 +11,7 @@ android {
 
     buildFeatures{
         viewBinding = true
+        dataBinding = true
     }
     defaultConfig {
         applicationId = "com.example.uts_anmp_160421059"

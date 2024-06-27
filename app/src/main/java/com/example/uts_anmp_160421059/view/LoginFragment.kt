@@ -72,21 +72,7 @@ class LoginFragment : Fragment() {
                             if (users != null) {
                                 sharedValue.putString("id", users.id.toString())
                             }
-//                            if (users != null) {
-//                                sharedValue.putString("username",users.username)
-//                            }
-//                            if (users != null) {
-//                                sharedValue.putString("first_name",users.first_name)
-//                            }
-//                            if (users != null) {
-//                                sharedValue.putString("last_name",users.last_name)
-//                            }
-//                            if (users != null) {
-//                                sharedValue.putString("url_profile",users.url)
-//                            }
-//                            if (users != null) {
-//                                sharedValue.putString("password",users.password)
-//                            }
+
                             sharedValue.apply()
                             val action = LoginFragmentDirections.actionLoginFragmentToGameListFragment()
                             Navigation.findNavController(it).navigate(action)
@@ -99,10 +85,5 @@ class LoginFragment : Fragment() {
 
 
     }
-//    fun observeViewModel():Boolean{
-//        var checkUser = false
-//
-//        return checkUser
-//    }
 
 }

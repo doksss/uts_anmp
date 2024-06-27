@@ -156,4 +156,10 @@ class UserViewModel(application:Application) :AndroidViewModel(application),Coro
 //        stringRequest.tag = TAG
 //        queue?.add(stringRequest)
     }
+
+    fun updateProfileUser(user:User) {
+        launch {
+            buildDb(getApplication()).userDao().updateUser(user)
+        }
+    }
 }

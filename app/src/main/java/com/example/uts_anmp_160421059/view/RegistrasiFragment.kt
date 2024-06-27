@@ -15,7 +15,7 @@ import com.example.uts_anmp_160421059.model.User
 import com.example.uts_anmp_160421059.viewmodel.UserViewModel
 
 
-class RegistrasiFragment : Fragment() {
+class RegistrasiFragment : Fragment(), UserEditClickListener{
     private lateinit var binding:FragmentRegistrasiBinding
     private lateinit var viewModel: UserViewModel
 
@@ -31,38 +31,18 @@ class RegistrasiFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.btnCreate.setOnClickListener{
-            var username = binding.txtRegUsername.text
-            var first_name = binding.txtRegFirstName.text
-            var lastname = binding.txtLastName.text
-            var email = binding.txtEmail.text
-            var password = binding.txtRegPassword.text
-            var confirm_pass = binding.txtConfirmPass.text
-            var url = binding.txtUrl.text
-            if(username.isEmpty()||first_name.isEmpty()||lastname.isEmpty()||email.isEmpty()||password.isEmpty()||
-                confirm_pass.isEmpty()){
-                Toast.makeText(activity, "Harap semua textbox diisi", Toast.LENGTH_SHORT).show()
-            }else{
-                if(password.toString() == confirm_pass.toString()){
-                    viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-                    val user = User(username.toString(),first_name.toString(),lastname.toString(),
-                        email.toString(),confirm_pass.toString(),url.toString())
-//                    viewModel.register(username.toString(),first_name.toString(),lastname.toString(),
-//                        email.toString(),confirm_pass.toString(),url.toString())
-                    viewModel.register(user)
-//                    Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
 
-//                    viewModel.userRegisterLD.observe(viewLifecycleOwner, Observer {
-//                        if(it==true){
-//                            Toast.makeText(activity, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
-//                        }
-//                    })
-                    val action = RegistrasiFragmentDirections.actionLoginFragment()
-                    Navigation.findNavController(it).navigate(action)
-                }else{
-                    Toast.makeText(activity, "Password yang dimasukkan tidak cocok", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        //diinisialisasi diawal supaya ga nullPointerException!
+        binding.user =User("","","","","","")
+
+        binding.addlistener = this
+        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+
+    }
+
+    override fun onUserEditClick(v: View) {
+        viewModel.register(binding.user!!)
+        Toast.makeText(context, "Akun berhasil dibuat", Toast.LENGTH_SHORT).show()
+        Navigation.findNavController(v).popBackStack()
     }
 }

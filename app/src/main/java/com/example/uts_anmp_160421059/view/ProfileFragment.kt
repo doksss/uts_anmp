@@ -21,19 +21,17 @@ import com.squareup.picasso.Picasso
 import java.lang.Exception
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(), UserEditClickListener, UserLogoutClickListener {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var viewModel: UserViewModel
-    private lateinit var user:User
+    private lateinit var user:User //UDAH GA KEPAKE DAH PAKE DATA BINDING
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding =FragmentProfileBinding.inflate(inflater,container,false)
         return binding.root
-//        return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,65 +41,58 @@ class ProfileFragment : Fragment() {
         var id = userlogin.getString("id","0")
         viewModel.profileUser(id!!.toInt())
 
+        binding.editlistener = this
+        binding.logoutlistener = this
+
         if(id.equals("")){
             val action = ProfileFragmentDirections.actionProfileFragmentLoginFragment()
             Navigation.findNavController(requireView()).navigate(action)
         }
 
-//        binding.txtNamaDepan.setText(firstname)
-//        binding.txtLastNameProfile.setText(lastname)
-//        binding.txtUsernameProfile.setText(username)
-//        binding.txtOldPass.setText(password)
-//        if(urlprofil!=""){
-//            Picasso.get().load(urlprofil).into(binding.imgProfile)
-//        }
-
-        binding.btnLogout.setOnClickListener{
-            val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
-            val sharedValue =shared.edit()
-            sharedValue.remove("id")
-            sharedValue.apply()
-            //menyembunyikan navbar
-            (activity as MainActivity).binding.bottomNav.visibility = View.GONE
-            val action = ProfileFragmentDirections.actionProfileFragmentLoginFragment()
-            Navigation.findNavController(requireView()).navigate(action)
-        }
-        binding.btnUpdate.setOnClickListener{
-            if(binding.txtNamaDepan.text.isEmpty()||binding.txtLastNameProfile.text.isEmpty()||binding.txtOldPass.text.isEmpty()){
-                Toast.makeText(activity, "Harap semua textbox diisi", Toast.LENGTH_SHORT).show()
-            }else{
-                viewModel.changeProfileUser(binding.txtNamaDepan.text.toString(), binding.txtLastNameProfile.text.toString(),
-                    binding.txtOldPass.text.toString(), id.toInt())
-                Toast.makeText(context, "User Updated", Toast.LENGTH_SHORT).show()
-            }
-
-
-        }
         observeViewModelUser()
     }
 
     fun observeViewModelUser(){
         viewModel.userLD.observe(viewLifecycleOwner, Observer {
-            if (it != null) {
-                binding.txtNamaDepan.setText(it.first_name)
-            }
-            if (it != null) {
-                binding.txtLastNameProfile.setText(it.last_name)
-            }
-            if (it != null) {
-                binding.txtUsernameProfile.setText(it.username)
-            }
-            if (it != null) {
-                binding.txtOldPass.setText(it.password)
-            }
-            if (it != null) {
-                if(it.url!=""){
-                    if (it != null) {
-                        Picasso.get().load(it.url).into(binding.imgProfile)
-                    }
-                }
-            }
+
+            binding.user = it
+
+//            if (it != null) {
+//                binding.txtNamaDepan.setText(it.first_name)
+//            }
+//            if (it != null) {
+//                binding.txtLastNameProfile.setText(it.last_name)
+//            }
+//            if (it != null) {
+//                binding.txtUsernameProfile.setText(it.username)
+//            }
+//            if (it != null) {
+//                binding.txtOldPass.setText(it.password)
+//            }
+//            if (it != null) {
+//                if(it.url!=""){
+//                    if (it != null) {
+//                        Picasso.get().load(it.url).into(binding.imgProfile)
+//                    }
+//                }
+//            }
         })
+    }
+
+    override fun onUserEditClick(v: View) {
+        viewModel.updateProfileUser(binding.user!!)
+        Toast.makeText(context, "User Updated", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onUserLogoutClick(v: View) {
+        val shared = requireContext().getSharedPreferences("login",Context.MODE_PRIVATE)
+        val sharedValue =shared.edit()
+        sharedValue.remove("id")
+        sharedValue.apply()
+        //menyembunyikan navbar
+        (activity as MainActivity).binding.bottomNav.visibility = View.GONE
+        val action = ProfileFragmentDirections.actionProfileFragmentLoginFragment()
+        Navigation.findNavController(v).navigate(action)
     }
 
 }

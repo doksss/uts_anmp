@@ -23,11 +23,7 @@
         android:id="@+id/registrasiFragment"
         android:name="com.example.uts_anmp_160421059.view.RegistrasiFragment"
         android:label="Registration Page"
-        tools:layout="@layout/fragment_registrasi">
-        <action
-            android:id="@+id/action_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_registrasi"/>
     <fragment
         android:id="@+id/gameListFragment"
         android:name="com.example.uts_anmp_160421059.view.GameListFragment"
