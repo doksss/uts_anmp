@@ -2,6 +2,7 @@ package com.example.uts_anmp_160421059.view
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -26,7 +27,6 @@ class GameListFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =FragmentGameListBinding.inflate(inflater,container,false)
         return binding.root
-//        return inflater.inflate(R.layout.fragment_game_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,7 +38,7 @@ class GameListFragment : Fragment() {
             Navigation.findNavController(requireView()).navigate(action)
         }
         viewModel =ViewModelProvider(this).get(ListGameViewModel::class.java)
-        viewModel.refresh()
+        viewModel.getAllGames()
 
         binding.recView.layoutManager = LinearLayoutManager(context)
         binding.recView.adapter =gameListAdapater
@@ -47,9 +47,11 @@ class GameListFragment : Fragment() {
     }
 
     fun observeViewModel(){
-        viewModel.gamesLD.observe(viewLifecycleOwner, Observer {
+        viewModel.gameLD.observe(viewLifecycleOwner, Observer {
             gameListAdapater.updateList(it)
         })
+        Log.d("Test gameListAdapter:", "TESSSTIS")
+
     }
 
 }

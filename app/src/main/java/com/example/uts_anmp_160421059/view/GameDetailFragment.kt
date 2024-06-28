@@ -37,22 +37,23 @@ class GameDetailFragment : Fragment() {
         if(index==0){
             binding.btnPrev.isEnabled = false
         }
-        var gameList:ArrayList<Game>
+        var gameList:Game
         var prgfList:ArrayList<Paragraph>? = null
         super.onViewCreated(view, savedInstanceState)
 
         if(arguments!=null){
             val games_id =GameDetailFragmentArgs.fromBundle(requireArguments()).gamesId
             viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-            viewModel.detailRefresh(games_id)
+            viewModel.getDetails(games_id.toInt())
             //bertujuan untuk mendengarkan dari live data. jika data baru muncul, maka UI akan menanggapi
             viewModel.gamesLD.observe(viewLifecycleOwner, Observer {
 //                val gameList:ArrayList<Game>
                 gameList = it
-                binding.txtJudulGames.setText(gameList[0].judul)
-                binding.txtAuthorGames.setText("@" + gameList[0].pengarang)
+                Log.d("Check GameList", gameList.toString())
+                binding.txtJudulGames.setText(gameList.judul)
+                binding.txtAuthorGames.setText("@" + gameList.pengarang)
 
-                Picasso.get().load(gameList[0].url).into(binding.imgGames)
+                Picasso.get().load(gameList.url).into(binding.imgGames)
                 //kalau paragraf cuma ada 1 maka btn next di disabled
                 if(index == (size-1)){
                     binding.btnNext.isEnabled = false

@@ -10,32 +10,27 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.uts_anmp_160421059.model.Game
 import com.example.uts_anmp_160421059.model.Paragraph
+import com.example.uts_anmp_160421059.util.buildDb
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class DetailViewModel(application: Application):AndroidViewModel(application) {
-    val gamesLD =MutableLiveData<ArrayList<Game>>()
+class DetailViewModel(application: Application):AndroidViewModel(application), CoroutineScope {
+    val gamesLD =MutableLiveData<Game>()
     val paragraphsLD=MutableLiveData<ArrayList<Paragraph>>()
-    val TAG = "volleyTag" //ini bebas mau dikasi nama apa variablenya
-    private var queue: RequestQueue?=null //object volley
-    fun detailRefresh(id:String){
-        queue = Volley.newRequestQueue(getApplication())//requestQueue butuh context, karena viewmodel gada context maka parent class diganti AndroidViewModel
-        val url = "http://172.20.10.2/anmp/listdetailgame.php?id="+id
 
-        val stringRequest = StringRequest(
-            Request.Method.GET,
-            url,
-            {//callback function jika volly success dibaca
-                Log.d("show_volley",it)
-                val sType = object: TypeToken<List<Game>>(){}.type
-                val result = Gson().fromJson<List<Game>>(it,sType)
-                gamesLD.value = result as ArrayList<Game>
-            },
-            {
-                Log.e("show_volley",it.toString())
-            }
-        )
-        stringRequest.tag = TAG
-        queue?.add(stringRequest)
+    private var job = Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
+
+    fun getDetails(id: Int){
+        launch{
+            val db = buildDb(getApplication())
+            gamesLD.postValue(db.gameDao().selectGame(id))
+        }
     }
 }

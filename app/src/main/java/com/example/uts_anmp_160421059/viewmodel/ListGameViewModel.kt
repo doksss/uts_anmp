@@ -9,38 +9,35 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.uts_anmp_160421059.model.Game
+import com.example.uts_anmp_160421059.util.buildDb
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.CoroutineScope
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
-class ListGameViewModel(application: Application):AndroidViewModel(application) {
-    val gamesLD =MutableLiveData<ArrayList<Game>>()
-    val TAG = "volleyTag" //ini bebas mau dikasi nama apa variablenya
-    private var queue: RequestQueue?=null //object volley
-    fun refresh(){
-        queue = Volley.newRequestQueue(getApplication())//requestQueue butuh context, karena viewmodel gada context maka parent class diganti AndroidViewModel
-        val url = "http://172.20.10.2/anmp/listgame.php"
+class ListGameViewModel(application:Application) :AndroidViewModel(application), CoroutineScope{
 
-        val stringRequest = StringRequest(
-            Request.Method.GET,
-            url,
-            {//callback function jika volly success dibaca
-                Log.d("show_volley",it)
-                //stype object untuk GSON
-                val sType = object: TypeToken<List<Game>>(){}.type
-                val result = Gson().fromJson<List<Game>>(it,sType)
-                gamesLD.value = result as ArrayList<Game>
-            },
-            {
-                Log.e("show_volley",it.toString())
-            }
-        )
-        stringRequest.tag = TAG
-        queue?.add(stringRequest)
+    val gameLD = MutableLiveData<List<Game>>()
+    private var job= Job()
+    override val coroutineContext: CoroutineContext
+        get() = job + Dispatchers.IO
+
+    fun getAllGames(){
+        launch {
+            val db = buildDb(getApplication())
+            gameLD.postValue(db.gameDao().selectAll())
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        //yang mau di clearkan tentu saja queue volley
-        queue?.cancelAll(TAG)
+    fun addGame(game: Game){
+        launch {
+            val db = buildDb(getApplication())
+            db.gameDao().insertAll(game)
+        }
     }
+
+
 }

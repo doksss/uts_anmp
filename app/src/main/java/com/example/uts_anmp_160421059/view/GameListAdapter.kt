@@ -52,7 +52,7 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
         return gameList.size
     }
 
-    fun updateList(newGameList:ArrayList<Game>){
+    fun updateList(newGameList:List<Game>){
         gameList.clear()
         gameList.addAll(newGameList)
         notifyDataSetChanged()
