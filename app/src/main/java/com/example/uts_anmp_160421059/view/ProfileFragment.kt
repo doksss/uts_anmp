@@ -36,10 +36,14 @@ class ProfileFragment : Fragment(), UserEditClickListener, UserLogoutClickListen
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.user = User("","","","","","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiIcKRatO1IcnItPod2ly-zh9tUzQcI0YDJw&s",
+            0)
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         val userlogin = requireActivity().getSharedPreferences("login", Context.MODE_PRIVATE)
         var id = userlogin.getString("id","0")
         viewModel.profileUser(id!!.toInt())
+
+
 
         binding.editlistener = this
         binding.logoutlistener = this

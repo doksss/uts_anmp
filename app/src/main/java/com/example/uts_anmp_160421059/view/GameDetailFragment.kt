@@ -36,10 +36,11 @@ class GameDetailFragment : Fragment(), ParagrafNextPageClickListener, ParagrafPr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.game = Game("","","","https://randomuser.me/api/portraits/men/74.jpg")
         var size = 0
         binding.pagenextlistener = this
         binding.pageprevlistener = this
-        binding.paragraf = Paragraph("","","")
+//        binding.paragraf = Paragraph("","","")
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
 
 

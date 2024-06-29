@@ -49,6 +49,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
+                        android:imageUrl="@{game.url}"
                         android:src="@drawable/ic_launcher_foreground"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
