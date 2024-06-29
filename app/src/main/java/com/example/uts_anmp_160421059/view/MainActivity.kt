@@ -1,5 +1,6 @@
 package com.example.uts_anmp_160421059.view
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     internal lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: ListGameViewModel
     private lateinit var viewmodelparagaf: DetailViewModel
+//    var indeks = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding =ActivityMainBinding.inflate(layoutInflater)
@@ -36,11 +38,14 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
 
 
-        var indeks = 0
         viewModel = ViewModelProvider(this).get(ListGameViewModel::class.java)
         viewmodelparagaf = ViewModelProvider(this).get(DetailViewModel::class.java)
 
-        if(indeks==0){
+        //AGAR NAMBAH DATA HANYA SEKALI SAJA TIDAK BERKALI-KALI
+        val runapp = getSharedPreferences("login", Context.MODE_PRIVATE)
+        var value = runapp.getString("run","0")
+
+        if(value=="0"){
             val game = Game("Review Game Terbaru: Cyberpunk 2077", "Ulasan tentang salah satu game paling dinanti tahun ini",
                 "@Doksss", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRRR2sNJOIpkZpG6rlWhrHkUpwbbo2I7GWeg&s")
             viewModel.addGame(game)
@@ -59,7 +64,10 @@ class MainActivity : AppCompatActivity() {
             for(para in paragraf){
                 viewmodelparagaf.addParagraf(para)
             }
-            indeks++
+            val shared = getSharedPreferences("login",Context.MODE_PRIVATE)
+            val sharedValue =shared.edit()
+            sharedValue.putString("run", "1")
+            sharedValue.apply()
         }
 
 
