@@ -21,7 +21,7 @@ import kotlin.coroutines.CoroutineContext
 
 class DetailViewModel(application: Application):AndroidViewModel(application), CoroutineScope {
     val gamesLD =MutableLiveData<Game>()
-    val paragraphsLD=MutableLiveData<ArrayList<Paragraph>>()
+    val paragraphsLD=MutableLiveData<List<Paragraph>>()
 
     private var job = Job()
     override val coroutineContext: CoroutineContext
@@ -31,6 +31,20 @@ class DetailViewModel(application: Application):AndroidViewModel(application), C
         launch{
             val db = buildDb(getApplication())
             gamesLD.postValue(db.gameDao().selectGame(id))
+        }
+    }
+
+    fun fetch(id: Int){
+        launch {
+            val db = buildDb(getApplication())
+            paragraphsLD.postValue(db.paragraphDao().selectParagrafDetail(id))
+        }
+    }
+
+    fun addParagraf(paragraf: Paragraph){
+        launch {
+            val db = buildDb(getApplication())
+            db.paragraphDao().insertAll(paragraf)
         }
     }
 }

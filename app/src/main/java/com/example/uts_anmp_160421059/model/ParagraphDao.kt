@@ -16,4 +16,7 @@ interface ParagraphDao {
 
     @Delete
     fun delete(paragraph: Paragraph)
+
+    @Query("SELECT * FROM paragraph where id_game= :id")
+    fun selectParagrafDetail(id: Int):List<Paragraph>
 }

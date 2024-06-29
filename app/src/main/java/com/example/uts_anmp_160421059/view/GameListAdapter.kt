@@ -21,25 +21,27 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
     }
 
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
-        holder.binding.txtJudulGame.text =gameList[position].judul
-        holder.binding.txtKreator.text = "@"+ gameList[position].pengarang
-//        + gameList[position].paragraphs?.get(0)?.title
-        holder.binding.txtDescription.text = gameList[position].deskripsi
-        val picasso = Picasso.Builder(holder.itemView.context)
-        picasso.listener { picasso, uri, exception ->
-            exception.printStackTrace()//jika picasso error
-        }
-        picasso.build().load(gameList[position].url).into(holder.binding.imageView,
-            object: Callback {
-                override fun onSuccess() {
-                    Log.d("Picasso Success","success")
-                }
 
-                override fun onError(e: Exception?) {
-                    Log.e("picasso error", e.toString())
-                }
+        holder.binding.game = gameList[position]
 
-            })
+//        holder.binding.txtJudulGame.text =gameList[position].judul
+//        holder.binding.txtKreator.text = "@"+ gameList[position].pengarang
+//        holder.binding.txtDescription.text = gameList[position].deskripsi
+//        val picasso = Picasso.Builder(holder.itemView.context)
+//        picasso.listener { picasso, uri, exception ->
+//            exception.printStackTrace()//jika picasso error
+//        }
+//        picasso.build().load(gameList[position].url).into(holder.binding.imageView,
+//            object: Callback {
+//                override fun onSuccess() {
+//                    Log.d("Picasso Success","success")
+//                }
+//
+//                override fun onError(e: Exception?) {
+//                    Log.e("picasso error", e.toString())
+//                }
+//
+//            })
         holder.binding.btnRead.setOnClickListener{
             val action = GameListFragmentDirections.actionDetailFragment(gameList[position].id.toString())
             Navigation.findNavController(it).navigate(action)
