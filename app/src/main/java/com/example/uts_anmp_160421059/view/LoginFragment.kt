@@ -37,7 +37,7 @@ class LoginFragment : Fragment(), UserCreateClickListener, UserEditClickListener
         binding.loginlistener = this
         viewModel =ViewModelProvider(this).get(UserViewModel::class.java)
 
-        binding.user =User("","","","","","")
+        binding.user =User("","","","","","",0)
 
 
 //        binding.btnSignin.setOnClickListener{

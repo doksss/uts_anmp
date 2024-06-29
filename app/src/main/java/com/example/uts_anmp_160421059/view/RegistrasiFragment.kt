@@ -33,7 +33,7 @@ class RegistrasiFragment : Fragment(), UserEditClickListener{
         super.onViewCreated(view, savedInstanceState)
 
         //diinisialisasi diawal supaya ga nullPointerException!
-        binding.user =User("","","","","","")
+        binding.user =User("","","","","","",0)
 
         binding.addlistener = this
         viewModel = ViewModelProvider(this).get(UserViewModel::class.java)

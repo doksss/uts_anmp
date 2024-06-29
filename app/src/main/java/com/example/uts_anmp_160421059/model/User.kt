@@ -16,7 +16,10 @@ data class User (
     @ColumnInfo(name = "password")
     var password:String,
     @ColumnInfo(name="url")
-    var url:String
+    var url:String,
+    @ColumnInfo(name="phone")
+    var phone:Int
+
 ){
     @PrimaryKey(autoGenerate = true)
     var id:Int = 0

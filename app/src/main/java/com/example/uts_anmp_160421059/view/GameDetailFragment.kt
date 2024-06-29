@@ -123,23 +123,37 @@ class GameDetailFragment : Fragment() {
                 binding.txtTitleParagraf.setText(it[index].judul_paragraf)
                 binding.txtContentParagraf.setText(it[index].isi_paragraf)
             }
+            fun updateButtons() {
+                binding.btnPrev.isEnabled = index > 0
+                binding.btnNext.isEnabled = index < size - 1
+            }
+            updateButtons()
             binding.btnPrev.setOnClickListener {
-                index--
-                if(index==0){
-                    binding.btnPrev.isEnabled = false
-                }else{
-                    binding.btnPrev.isEnabled = true
+                if (index > 0){
+                    index--
+                    binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
+                    binding.txtContentParagraf.setText(prgfList?.get(index)?.isi_paragraf)
                 }
-                if(index==(size-1)){
-                    binding.btnNext.isEnabled = false
-                }else{
-                    binding.btnNext.isEnabled = true
-                }
-                binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
+                updateButtons()
+//                index--
+//                if(index==0){
+//                    binding.btnPrev.isEnabled = false
+//                }else{
+//                    binding.btnPrev.isEnabled = true
+//                }
+//                if(index==(size-1)){
+//                    binding.btnNext.isEnabled = false
+//                }else{
+//                    binding.btnNext.isEnabled = true
+//                }
+//                binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
             }
             binding.btnNext.setOnClickListener {
-                index++
-                binding.txtTitleParagraf.setText(prgfList?.get(index)?.isi_paragraf)
+                if(index < size-1){
+                    index++
+                    binding.txtTitleParagraf.setText(prgfList?.get(index)?.isi_paragraf)
+                }
+                updateButtons()
             }
 
             Log.d("Test gameListAdapter:", prgfList.size.toString())
