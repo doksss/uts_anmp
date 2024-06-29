@@ -32,11 +32,11 @@
                     android:id="@+id/btnUpdate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="Update Profile"
+                    android:layout_marginTop="40dp"
                     android:onClick="@{editlistener::onUserEditClick}"
+                    android:text="Update Profile"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.836"
+                    app:layout_constraintHorizontal_bias="0.936"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtOldPass" />
 
@@ -44,14 +44,14 @@
                     android:id="@+id/txtOldPass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
                     android:ems="10"
                     android:hint="Old Password"
-                    android:text="@={user.password}"
                     android:inputType="text"
+                    android:text="@={user.password}"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.502"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtLastNameProfile" />
+                    tools:layout_editor_absoluteY="425dp" />
 
                 <EditText
                     android:id="@+id/txtLastNameProfile"
@@ -60,8 +60,8 @@
                     android:layout_marginTop="25dp"
                     android:ems="10"
                     android:hint="Last Name"
-                    android:text="@={user.last_name}"
                     android:inputType="text"
+                    android:text="@={user.last_name}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtNamaDepan" />
@@ -118,6 +118,19 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/ic_launcher_foreground" />
+
+                <EditText
+                    android:id="@+id/txtEmailUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Email"
+                    android:inputType="text"
+                    android:text="@={user.email}"
+                    app:layout_constraintBottom_toTopOf="@+id/txtOldPass"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtLastNameProfile" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </FrameLayout>
