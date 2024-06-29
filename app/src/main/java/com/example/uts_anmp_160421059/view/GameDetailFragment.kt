@@ -17,11 +17,12 @@ import com.example.uts_anmp_160421059.viewmodel.ListGameViewModel
 import com.squareup.picasso.Picasso
 import java.util.concurrent.TimeUnit
 
-class GameDetailFragment : Fragment() {
+class GameDetailFragment : Fragment(), ParagrafNextPageClickListener, ParagrafPrevPageClickListener {
 
     private lateinit var binding: FragmentGameDetailBinding
     private lateinit var viewModel: DetailViewModel
     private lateinit var prgfList:List<Paragraph>
+    var index = 0
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,15 +37,10 @@ class GameDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var size = 0
+        binding.pagenextlistener = this
+        binding.pageprevlistener = this
+        binding.paragraf = Paragraph("","","")
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-
-
-//        if(index==0){
-//            binding.btnPrev.isEnabled = false
-//        }
-
-//        var gameList:Game
-//        var prgfList:List<Paragraph>? = null
 
 
         if(arguments!=null){
@@ -53,61 +49,8 @@ class GameDetailFragment : Fragment() {
 
             viewModel.fetch(games_id.toInt())
             viewModel.getDetails(games_id.toInt())
-
             observeViewModel()
-
-
-
-//            if(index == (size-1)){
-//                binding.btnNext.isEnabled = false
-//            }
-//            binding.btnNext.setOnClickListener{
-//                index++
-//                if(index==(size-1)){
-//                    binding.btnNext.isEnabled = false
-//                }else{
-//                    binding.btnNext.isEnabled = true
-//                }
-//                if(index==0){
-//                    binding.btnPrev.isEnabled = false
-//                }else{
-//                    binding.btnPrev.isEnabled = true
-//                }
-//            }
-//            binding.btnPrev.setOnClickListener {
-//                index--
-//                if(index==0){
-//                    binding.btnPrev.isEnabled = false
-//                }else{
-//                    binding.btnPrev.isEnabled = true
-//                }
-//                if(index==(size-1)){
-//                    binding.btnNext.isEnabled = false
-//                }else{
-//                    binding.btnNext.isEnabled = true
-//                }
-//            }
-//            viewModel.paragraphsLD.observe(viewLifecycleOwner, Observer {
-//                prgfList = it
-//                size = it.size
-//
-//            })
-//            binding.btnPrev.setOnClickListener {
-//                index--
-//                if(index==0){
-//                    binding.btnPrev.isEnabled = false
-//                }else{
-//                    binding.btnPrev.isEnabled = true
-//                }
-//                if(index==(size-1)){
-//                    binding.btnNext.isEnabled = false
-//                }else{
-//                    binding.btnNext.isEnabled = true
-//                }
-//                binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
-//            }
         }
-
 
     }
     fun observeViewModel(){
@@ -118,47 +61,43 @@ class GameDetailFragment : Fragment() {
         viewModel.paragraphsLD.observe(viewLifecycleOwner, Observer {
             prgfList = it
             var size = it.size
-            var index = 0
-            if (it.isNotEmpty()) {
-                binding.txtTitleParagraf.setText(it[index].judul_paragraf)
-                binding.txtContentParagraf.setText(it[index].isi_paragraf)
-            }
-            fun updateButtons() {
-                binding.btnPrev.isEnabled = index > 0
-                binding.btnNext.isEnabled = index < size - 1
-            }
-            updateButtons()
-            binding.btnPrev.setOnClickListener {
-                if (index > 0){
-                    index--
-                    binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
-                    binding.txtContentParagraf.setText(prgfList?.get(index)?.isi_paragraf)
-                }
-                updateButtons()
-//                index--
-//                if(index==0){
-//                    binding.btnPrev.isEnabled = false
-//                }else{
-//                    binding.btnPrev.isEnabled = true
-//                }
-//                if(index==(size-1)){
-//                    binding.btnNext.isEnabled = false
-//                }else{
-//                    binding.btnNext.isEnabled = true
-//                }
-//                binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
-            }
-            binding.btnNext.setOnClickListener {
-                if(index < size-1){
-                    index++
-                    binding.txtTitleParagraf.setText(prgfList?.get(index)?.isi_paragraf)
-                }
-                updateButtons()
-            }
 
-            Log.d("Test gameListAdapter:", prgfList.size.toString())
+            if (it.isNotEmpty()) {
+
+                binding.paragraf = it[index]
+
+            }
+            binding.btnPrev.isEnabled = index > 0
+            binding.btnNext.isEnabled = index < size - 1
+
+            Log.d("Test gameListAdapter:", prgfList.size.toString() + it[index])
         })
 
+    }
+
+
+    override fun onParagrafNextPageClick(v: View) {
+        var size = prgfList.size
+        if(index < size-1){
+            index++
+            binding.paragraf = prgfList[index]
+//            binding.paragraf!!.judul_paragraf = prgfList[index].judul_paragraf
+//            binding.paragraf!!.isi_paragraf = prgfList[index].isi_paragraf
+        }
+        binding.btnPrev.isEnabled = index > 0
+        binding.btnNext.isEnabled = index < size - 1
+    }
+
+    override fun onParagrafPrevPageClick(v: View) {
+        var size = prgfList.size
+        if (index > 0){
+            index--
+            binding.paragraf = prgfList[index]
+//            binding.txtTitleParagraf.setText(prgfList?.get(index)?.judul_paragraf)
+//            binding.txtContentParagraf.setText(prgfList?.get(index)?.isi_paragraf)
+        }
+        binding.btnPrev.isEnabled = index > 0
+        binding.btnNext.isEnabled = index < size - 1
     }
 
 }

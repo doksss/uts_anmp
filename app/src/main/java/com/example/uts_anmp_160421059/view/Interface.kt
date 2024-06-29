@@ -13,3 +13,12 @@ interface UserLogoutClickListener{
 interface UserCreateClickListener{
     fun onUserCreateClick(v: View)
 }
+
+interface ParagrafNextPageClickListener{
+    fun onParagrafNextPageClick(v: View)
+}
+
+interface ParagrafPrevPageClickListener{
+    fun onParagrafPrevPageClick(v: View)
+}
+

@@ -10,6 +10,12 @@
         <variable
             name="paragraf"
             type="com.example.uts_anmp_160421059.model.Paragraph" />
+        <variable
+            name="pagenextlistener"
+            type="com.example.uts_anmp_160421059.view.ParagrafNextPageClickListener" />
+        <variable
+            name="pageprevlistener"
+            type="com.example.uts_anmp_160421059.view.ParagrafPrevPageClickListener" />
     </data>
 
     <FrameLayout
@@ -76,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="20dp"
-                        android:text="@{paragraf.judul_paragraf}"
+                        android:text="@={paragraf.judul_paragraf}"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtAuthorGames" />
@@ -88,7 +94,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="16dp"
-                        android:text="@{paragraf.isi_paragraf}"
+                        android:text="@={paragraf.isi_paragraf}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtTitleParagraf" />
@@ -100,6 +106,7 @@
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="28dp"
                         android:text="&gt;"
+                        android:onClick="@{pagenextlistener::onParagrafNextPageClick}"
                         app:cornerRadius="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/txtContentParagraf" />
@@ -111,6 +118,7 @@
                         android:layout_marginTop="32dp"
                         android:layout_marginEnd="24dp"
                         android:text="&lt;"
+                        android:onClick="@{pageprevlistener::onParagrafPrevPageClick}"
                         app:cornerRadius="10dp"
                         app:layout_constraintEnd_toStartOf="@+id/btnNext"
                         app:layout_constraintTop_toBottomOf="@+id/txtContentParagraf" />
