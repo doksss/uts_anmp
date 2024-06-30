@@ -22,3 +22,7 @@ interface ParagrafPrevPageClickListener{
     fun onParagrafPrevPageClick(v: View)
 }
 
+interface GameDetailClickListener{
+    fun onGameDetailClickListener(v: View)
+}
+

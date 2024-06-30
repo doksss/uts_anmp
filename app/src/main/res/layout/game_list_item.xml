@@ -7,6 +7,9 @@
         <variable
             name="game"
             type="com.example.uts_anmp_160421059.model.Game" />
+        <variable
+            name="detailistener"
+            type="com.example.uts_anmp_160421059.view.GameDetailClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,6 +90,8 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="10dp"
                     android:text="Read"
+                    android:tag="@{game.id}"
+                    android:onClick="@{detailistener::onGameDetailClickListener}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtDescription" />

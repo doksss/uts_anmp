@@ -12,7 +12,7 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameListAdapter.GameViewHolder>() {
+class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameListAdapter.GameViewHolder>(), GameDetailClickListener {
     class GameViewHolder(var binding: GameListItemBinding):RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
@@ -23,6 +23,8 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
 
         holder.binding.game = gameList[position]
+
+        holder.binding.detailistener = this
 
 //        holder.binding.txtJudulGame.text =gameList[position].judul
 //        holder.binding.txtKreator.text = "@"+ gameList[position].pengarang
@@ -42,10 +44,10 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
 //                }
 //
 //            })
-        holder.binding.btnRead.setOnClickListener{
-            val action = GameListFragmentDirections.actionDetailFragment(gameList[position].id.toString())
-            Navigation.findNavController(it).navigate(action)
-        }
+//        holder.binding.btnRead.setOnClickListener{
+//            val action = GameListFragmentDirections.actionDetailFragment(gameList[position].id.toString())
+//            Navigation.findNavController(it).navigate(action)
+//        }
 
 
     }
@@ -58,6 +60,12 @@ class GameListAdapter(val gameList:ArrayList<Game>):RecyclerView.Adapter<GameLis
         gameList.clear()
         gameList.addAll(newGameList)
         notifyDataSetChanged()
+    }
+
+    override fun onGameDetailClickListener(v: View) {
+        val id = v.tag.toString()
+        val action = GameListFragmentDirections.actionDetailFragment(id)
+        Navigation.findNavController(v).navigate(action)
     }
 
 }
