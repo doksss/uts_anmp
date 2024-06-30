@@ -44,6 +44,7 @@
                     android:id="@+id/txtOldPass"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:ems="10"
                     android:hint="Old Password"
                     android:inputType="text"
@@ -51,7 +52,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.502"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:layout_editor_absoluteY="425dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtEmailUser" />
 
                 <EditText
                     android:id="@+id/txtLastNameProfile"
@@ -123,11 +124,11 @@
                     android:id="@+id/txtEmailUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
                     android:ems="10"
                     android:hint="Email"
                     android:inputType="text"
                     android:text="@={user.email}"
-                    app:layout_constraintBottom_toTopOf="@+id/txtOldPass"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/txtLastNameProfile" />
